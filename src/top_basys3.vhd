@@ -141,7 +141,7 @@ begin
     );
 	
 	-- CONCURRENT STATEMENTS ----------------------------
-	master_reset <= btnU;
+	master_reset <= btnR;
 	clk_reset <= btnL;
 	fsm_reset <= btnR;
 	

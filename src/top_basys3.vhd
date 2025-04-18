@@ -36,7 +36,6 @@ architecture top_basys3_arch of top_basys3 is
     signal reset_controller : std_logic;
     signal clk_decoder : std_logic;
     signal clk_TDM4 : std_logic;
-    
   
 	-- component declarations
     component sevenseg_decoder is
@@ -131,25 +130,26 @@ begin
     generic map (k_WIDTH => 7)
     port map (
         i_clk => clk_TDM4,
-        i_reset => reset_controller,
+        i_reset => master_reset,
         i_D0 => o_seg1,
-        i_D1 => o_seg2,
-        i_D2 => "0001110",
+        i_D1 => "0001110",
+        i_D2 => o_seg2,
         i_D3 => "0001110",
         o_sel => an(3 downto 0),
         o_data => seg(6 downto 0)
     );
 	
 	-- CONCURRENT STATEMENTS ----------------------------
-	master_reset <= btnR;
-	clk_reset <= btnL;
-	fsm_reset <= btnR;
+	master_reset <= btnU;
+	clk_reset <= btnR;
+	fsm_reset <= btnL;
 	
 	reset_controller <= clk_reset or master_reset;
 	i_clk_divider <= fsm_reset or master_reset;
 	
 	-- LED 15 gets the FSM slow clock signal. The rest are grounded.
 	led(15) <= clk_decoder;
+	led(14 downto 0) <= (others=>'0');
 	-- leave unused switches UNCONNECTED. Ignore any warnings this causes.
 	
 	-- reset signals
